@@ -20,6 +20,20 @@ void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass read
             );
 }
 
+// external priority function P1.1 
+void ExternalPriority(std::vector<PCB> &ready_queue){
+    std::sort(
+        ready_queue.begin(),
+        ready_queue.end(),
+        [](const PCB &first, const PCB &second){
+            if (first.priority == second.priority){
+                return (first.arrival_time > second.arrival_time); // if both processes have the same priority, we just default to FCFS
+            }
+        return (first.priority < second.priority); // actual EP logic
+        }
+    );
+}
+
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
 
     std::vector<PCB> ready_queue;   //The ready queue of processes
@@ -71,12 +85,52 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
 
+        for (auto p = wait_queue.begin(); p != wait_queue.end();) {
+            p -> io_duration--; // i/o duration decrement
+            if (p->io_duration == 0){ // if process completed i/o
+                p->state = READY; // change process state to READY
+                ready_queue.push_back(*p); // move to the back of the ready_queue
+                execution_status += print_exec_status(current_time, p->PID, WAITING, READY); // execution status output
+                sync_queue(job_list, *p); // job_list management
+                p = wait_queue.erase(p); // remove p from wait_queue
+            } else {
+                ++p; // if i/o not finished, we move to the next process
+            }
+        }
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        FCFS(ready_queue); //example of FCFS is shown here
-        /////////////////////////////////////////////////////////////////
+        ExternalPriority(ready_queue); // call EP function we made
 
+        // if CPU idle and ready queue has processes
+        if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
+            run_process(running, job_list, ready_queue, current_time); // call helper function to run process
+            execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
+        }
+
+        // execute running process
+        if (running.state == RUNNING) {
+            running.remaining_time--; // decrement remaining time
+
+            // if process needs I/O
+            // conditions: process still has remaining time, process has i/o operations and the i/o operation can be performed with the remaining time available 
+            if (running.remaining_time > 0 && running.io_freq > 0 && (running.processing_time - running.remaining_time) % running.io_freq == 0){
+                running.state = WAITING; // process is now waiting
+                wait_queue.push_back(running); // add to the back of the wait queue
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING); // execution status output
+                sync_queue(job_list, running); // job_list management
+                idle_CPU(running); // clear cpu
+            }
+            
+            // checking if process is done
+            else if (running.remaining_time == 0){
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED); // execution status output
+                terminate_process(running, job_list); // helper function to terminate process
+                idle_CPU(running); // clear cpu
+            }
+        }
+        /////////////////////////////////////////////////////////////////
+        current_time++; // increment current_time within while loop
         // POINT B
     }
     

@@ -69,6 +69,7 @@ struct PCB{
     enum states     state;
     unsigned int    io_freq;
     unsigned int    io_duration;
+    unsigned int    priority; // ++
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -270,6 +271,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.remaining_time = std::stoi(tokens[3]);
     process.io_freq = std::stoi(tokens[4]);
     process.io_duration = std::stoi(tokens[5]);
+    process.priority = std::stoi(tokens[6]); // added to read process priority when adding process
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
