@@ -3,11 +3,14 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
+ * @author Muhammad Ali 101291890
+ * @author Gregory Horvat 101303925
+ * 
  */
 
 #include<interrupts_student1_student2.hpp>
 
-void FCFS(std::vector<PCB> &ready_queue) {
+void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass ready_queue as parameter
     std::sort( 
                 ready_queue.begin(),
                 ready_queue.end(),
@@ -58,8 +61,12 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 job_list.push_back(process); //Add it to the list of processes
 
                 execution_status += print_exec_status(current_time, process.PID, NEW, READY);
+                // output requirement similar to assignment 1, thanks sasi
             }
         }
+
+        // edit area for us is between POINT A and POINT B
+        // POINT A
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
@@ -70,6 +77,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         FCFS(ready_queue); //example of FCFS is shown here
         /////////////////////////////////////////////////////////////////
 
+        // POINT B
     }
     
     //Close the output table

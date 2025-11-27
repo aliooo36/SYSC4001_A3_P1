@@ -3,6 +3,9 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
+ * @author Muhammad Ali 101291890
+ * @author Gregory Horvat 101303925
+ * 
  */
 
 #include<interrupts_student1_student2.hpp>
@@ -61,6 +64,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             }
         }
 
+        // edit area for us is between POINT A and POINT B
+        // POINT A
+
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
 
@@ -70,6 +76,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         FCFS(ready_queue); //example of FCFS is shown here
         /////////////////////////////////////////////////////////////////
 
+        // POINT B
     }
     
     //Close the output table

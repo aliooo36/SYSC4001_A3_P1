@@ -3,6 +3,9 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
+ * @author Muhammad Ali
+ * @brief just added some comments
+ * 
  */
 
 #ifndef INTERRUPTS_HPP_
@@ -54,6 +57,7 @@ struct memory_partition{
     {6, 2, -1}
 };
 
+// im assuming we can edit this PCB directly to include the Priorities
 struct PCB{
     int             PID;
     unsigned int    size;
