@@ -165,6 +165,7 @@ int main(int argc, char** argv) {
     //To do so, the add_process() helper function is used (see include file).
     std::string line;
     std::vector<PCB> list_process;
+
     while(std::getline(input_file, line)) {
         auto input_tokens = split_delim(line, ", ");
         auto new_process = add_process(input_tokens);
