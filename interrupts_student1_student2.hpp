@@ -271,7 +271,9 @@ PCB add_process(std::vector<std::string> tokens) {
     process.remaining_time = std::stoi(tokens[3]);
     process.io_freq = std::stoi(tokens[4]);
     process.io_duration = std::stoi(tokens[5]);
-    process.priority = std::stoi(tokens[6]); // added to read process priority when adding process
+    
+    process.priority = process.PID; // updated assignment requirement, as stated in testcase file on D2L, lower PID = higher priority
+
     process.start_time = -1;
     process.partition_number = -1;
     process.state = NOT_ASSIGNED;
