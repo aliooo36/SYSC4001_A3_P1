@@ -1,0 +1,31 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 20 |       NEW |     READY |
+|                 0 | 20 |     READY |   RUNNING |
+|                25 | 15 |       NEW |     READY |
+|                50 | 10 |       NEW |     READY |
+|                75 |  5 |       NEW |     READY |
+|               100 | 20 |   RUNNING |     READY |
+|               100 | 15 |     READY |   RUNNING |
+|               200 | 15 |   RUNNING |     READY |
+|               200 | 10 |     READY |   RUNNING |
+|               300 | 10 |   RUNNING |     READY |
+|               300 |  5 |     READY |   RUNNING |
+|               400 |  5 |   RUNNING |     READY |
+|               400 | 20 |     READY |   RUNNING |
+|               500 | 20 |   RUNNING |TERMINATED |
+|               500 | 15 |     READY |   RUNNING |
+|               600 | 15 |   RUNNING |TERMINATED |
+|               600 | 10 |     READY |   RUNNING |
+|               700 | 10 |   RUNNING |TERMINATED |
+|               700 |  5 |     READY |   RUNNING |
+|               800 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+
+Performance Metrics
+Throughput: 0.004994 processes/ms
+Average Turnaround Time: 612.500000 ms
+Average Wait Time: 412.500000 ms
+Average Response Time: 112.500000 ms

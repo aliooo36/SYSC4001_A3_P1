@@ -1,0 +1,46 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 25 |       NEW |     READY |
+|                 0 | 20 |       NEW |     READY |
+|                 0 | 15 |       NEW |     READY |
+|                 0 | 10 |       NEW |     READY |
+|                 0 |  5 |       NEW |     READY |
+|                 0 | 25 |     READY |   RUNNING |
+|               100 | 25 |   RUNNING |     READY |
+|               100 | 20 |     READY |   RUNNING |
+|               200 | 20 |   RUNNING |     READY |
+|               200 | 15 |     READY |   RUNNING |
+|               300 | 15 |   RUNNING |     READY |
+|               300 | 10 |     READY |   RUNNING |
+|               400 | 10 |   RUNNING |     READY |
+|               400 |  5 |     READY |   RUNNING |
+|               500 |  5 |   RUNNING |     READY |
+|               500 | 25 |     READY |   RUNNING |
+|               600 | 25 |   RUNNING |     READY |
+|               600 | 20 |     READY |   RUNNING |
+|               700 | 20 |   RUNNING |     READY |
+|               700 | 15 |     READY |   RUNNING |
+|               800 | 15 |   RUNNING |     READY |
+|               800 | 10 |     READY |   RUNNING |
+|               900 | 10 |   RUNNING |     READY |
+|               900 |  5 |     READY |   RUNNING |
+|              1000 |  5 |   RUNNING |     READY |
+|              1000 | 25 |     READY |   RUNNING |
+|              1100 | 25 |   RUNNING |TERMINATED |
+|              1100 | 20 |     READY |   RUNNING |
+|              1200 | 20 |   RUNNING |TERMINATED |
+|              1200 | 15 |     READY |   RUNNING |
+|              1300 | 15 |   RUNNING |TERMINATED |
+|              1300 | 10 |     READY |   RUNNING |
+|              1400 | 10 |   RUNNING |TERMINATED |
+|              1400 |  5 |     READY |   RUNNING |
+|              1500 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+
+Performance Metrics
+Throughput: 0.003331 processes/ms
+Average Turnaround Time: 1300.000000 ms
+Average Wait Time: 1000.000000 ms
+Average Response Time: 200.000000 ms

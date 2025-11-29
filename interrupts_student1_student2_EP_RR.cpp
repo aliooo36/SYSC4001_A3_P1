@@ -44,6 +44,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                                     //to make the code easier :).
 
     unsigned int current_time = 0;
+    const unsigned int TOTAL_MEMORY = 100;
+    const unsigned int LARGEST_PARTITION = 40;
+
     PCB running;
     const unsigned int TIME_QUANTUM = 100; // RR time quantum
 
@@ -69,6 +72,16 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         //Go through the list of proceeses
         for(auto &process : list_processes) {
             if(process.arrival_time == current_time) {//check if the AT = current time
+
+                // memory size validation                
+                if(process.size > TOTAL_MEMORY || process.size > LARGEST_PARTITION) {
+                    process.state = TERMINATED;
+                    process.completion_time = current_time;
+                    job_list.push_back(process);
+                    execution_status += print_exec_status(current_time, process.PID, NEW, TERMINATED);
+                    continue; // skip process, don't add to queue
+                }
+
                 //if so, assign memory and put the process into the ready queue
                 assign_memory(process);
 

@@ -1,0 +1,44 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 15 |       NEW |     READY |
+|                 0 | 15 |     READY |   RUNNING |
+|                10 | 10 |       NEW |     READY |
+|                20 |  5 |       NEW |     READY |
+|                20 | 15 |   RUNNING |   WAITING |
+|                20 | 10 |     READY |   RUNNING |
+|                22 | 15 |   WAITING |     READY |
+|                35 | 10 |   RUNNING |   WAITING |
+|                35 | 15 |     READY |   RUNNING |
+|                38 | 10 |   WAITING |     READY |
+|                55 | 15 |   RUNNING |   WAITING |
+|                55 | 10 |     READY |   RUNNING |
+|                57 | 15 |   WAITING |     READY |
+|                70 | 10 |   RUNNING |   WAITING |
+|                70 | 15 |     READY |   RUNNING |
+|                73 | 10 |   WAITING |     READY |
+|                90 | 15 |   RUNNING |TERMINATED |
+|                90 | 10 |     READY |   RUNNING |
+|               105 | 10 |   RUNNING |   WAITING |
+|               105 |  5 |     READY |   RUNNING |
+|               108 | 10 |   WAITING |     READY |
+|               115 |  5 |   RUNNING |   WAITING |
+|               115 | 10 |     READY |   RUNNING |
+|               119 |  5 |   WAITING |     READY |
+|               120 | 10 |   RUNNING |TERMINATED |
+|               120 |  5 |     READY |   RUNNING |
+|               130 |  5 |   RUNNING |   WAITING |
+|               134 |  5 |   WAITING |     READY |
+|               134 |  5 |     READY |   RUNNING |
+|               144 |  5 |   RUNNING |   WAITING |
+|               148 |  5 |   WAITING |     READY |
+|               148 |  5 |     READY |   RUNNING |
+|               158 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+
+Performance Metrics
+Throughput: 0.018868 processes/ms
+Average Turnaround Time: 112.666664 ms
+Average Wait Time: 54.333332 ms
+Average Response Time: 31.666666 ms

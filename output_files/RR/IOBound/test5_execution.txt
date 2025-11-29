@@ -1,0 +1,68 @@
++------------------------------------------------+
+|Time of Transition |PID | Old State | New State |
++------------------------------------------------+
+|                 0 | 25 |       NEW |     READY |
+|                 0 | 25 |     READY |   RUNNING |
+|                20 | 20 |       NEW |     READY |
+|                30 | 25 |   RUNNING |   WAITING |
+|                30 | 20 |     READY |   RUNNING |
+|                32 | 25 |   WAITING |     READY |
+|                40 | 15 |       NEW |     READY |
+|                55 | 20 |   RUNNING |   WAITING |
+|                55 | 25 |     READY |   RUNNING |
+|                57 | 20 |   WAITING |     READY |
+|                60 | 10 |       NEW |     READY |
+|                80 |  5 |       NEW |     READY |
+|                85 | 25 |   RUNNING |   WAITING |
+|                85 | 15 |     READY |   RUNNING |
+|                87 | 25 |   WAITING |     READY |
+|               105 | 15 |   RUNNING |   WAITING |
+|               105 | 20 |     READY |   RUNNING |
+|               107 | 15 |   WAITING |     READY |
+|               130 | 20 |   RUNNING |   WAITING |
+|               130 | 10 |     READY |   RUNNING |
+|               132 | 20 |   WAITING |     READY |
+|               145 | 10 |   RUNNING |   WAITING |
+|               145 |  5 |     READY |   RUNNING |
+|               148 | 10 |   WAITING |     READY |
+|               155 |  5 |   RUNNING |   WAITING |
+|               155 | 25 |     READY |   RUNNING |
+|               159 |  5 |   WAITING |     READY |
+|               185 | 25 |   RUNNING |   WAITING |
+|               185 | 15 |     READY |   RUNNING |
+|               187 | 25 |   WAITING |     READY |
+|               205 | 15 |   RUNNING |   WAITING |
+|               205 | 20 |     READY |   RUNNING |
+|               207 | 15 |   WAITING |     READY |
+|               230 | 20 |   RUNNING |   WAITING |
+|               230 | 10 |     READY |   RUNNING |
+|               232 | 20 |   WAITING |     READY |
+|               245 | 10 |   RUNNING |   WAITING |
+|               245 |  5 |     READY |   RUNNING |
+|               248 | 10 |   WAITING |     READY |
+|               255 |  5 |   RUNNING |   WAITING |
+|               255 | 25 |     READY |   RUNNING |
+|               259 |  5 |   WAITING |     READY |
+|               265 | 25 |   RUNNING |TERMINATED |
+|               265 | 15 |     READY |   RUNNING |
+|               285 | 15 |   RUNNING |TERMINATED |
+|               285 | 20 |     READY |   RUNNING |
+|               290 | 20 |   RUNNING |TERMINATED |
+|               290 | 10 |     READY |   RUNNING |
+|               305 | 10 |   RUNNING |   WAITING |
+|               305 |  5 |     READY |   RUNNING |
+|               308 | 10 |   WAITING |     READY |
+|               315 |  5 |   RUNNING |   WAITING |
+|               315 | 10 |     READY |   RUNNING |
+|               319 |  5 |   WAITING |     READY |
+|               320 | 10 |   RUNNING |TERMINATED |
+|               320 |  5 |     READY |   RUNNING |
+|               330 |  5 |   RUNNING |TERMINATED |
++------------------------------------------------+
+
+
+Performance Metrics
+Throughput: 0.015106 processes/ms
+Average Turnaround Time: 258.000000 ms
+Average Wait Time: 184.600006 ms
+Average Response Time: 38.000000 ms

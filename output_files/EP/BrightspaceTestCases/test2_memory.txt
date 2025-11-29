@@ -1,0 +1,28 @@
+
+Memory Status:
+Used/Free Partitions:
+  Partition 1 (Size: 40MB) - FREE
+  Partition 2 (Size: 25MB) - FREE
+  Partition 3 (Size: 15MB) - FREE
+  Partition 4 (Size: 10MB) - FREE
+  Partition 5 (Size: 8MB) - FREE
+  Partition 6 (Size: 2MB) - USED by PID 10 (Process Size: 1MB, Internal Frag: 1MB)
+
+Total Memory Used: 2 MB
+Total Free Memory: 99 MB
+Total Usable Memory Available: 98 MB
+Internal Fragmentation: 1 MB
+
+Memory Status:
+Used/Free Partitions:
+  Partition 1 (Size: 40MB) - FREE
+  Partition 2 (Size: 25MB) - FREE
+  Partition 3 (Size: 15MB) - FREE
+  Partition 4 (Size: 10MB) - FREE
+  Partition 5 (Size: 8MB) - FREE
+  Partition 6 (Size: 2MB) - USED by PID 10 (Process Size: 1MB, Internal Frag: 1MB)
+
+Total Memory Used: 2 MB
+Total Free Memory: 99 MB
+Total Usable Memory Available: 98 MB
+Internal Fragmentation: 1 MB
