@@ -57,7 +57,7 @@ struct memory_partition{
     {6, 2, -1}
 };
 
-// im assuming we can edit this PCB directly to include the Priorities
+// im assuming we can edit the PCB as we need to include the info needed for the simulator, as stated in ii. PCB of the assignment PDF
 struct PCB{
     int             PID;
     unsigned int    size;
@@ -69,7 +69,8 @@ struct PCB{
     enum states     state;
     unsigned int    io_freq;
     unsigned int    io_duration;
-    unsigned int    priority; // ++
+    unsigned int    priority; // priority addition
+    unsigned int    total_cpu_time; // track total CPU time across bursts for RR
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -273,6 +274,7 @@ PCB add_process(std::vector<std::string> tokens) {
     process.io_duration = std::stoi(tokens[5]);
     
     process.priority = process.PID; // updated assignment requirement, as stated in testcase file on D2L, lower PID = higher priority
+    process.total_cpu_time = 0; // initialize total CPU time counter
 
     process.start_time = -1;
     process.partition_number = -1;
