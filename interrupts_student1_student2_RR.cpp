@@ -37,6 +37,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     idle_CPU(running);
 
     std::string execution_status;
+    std::string memory_status; // separate string for memory output
 
     //make the output table (the header row)
     execution_status = print_exec_header();
@@ -136,6 +137,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             running.state = RUNNING;
             sync_queue(job_list, running);
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
+            memory_status += print_memory_status(job_list); // capture memory status whenever a process starts
         }
         /////////////////////////////////////////////////////////////////
 
@@ -145,6 +147,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
+    
+    // Write memory status to separate file
+    write_output(memory_status, "memory.txt");
 
     return std::make_tuple(execution_status);
 }

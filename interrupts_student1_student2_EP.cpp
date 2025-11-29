@@ -20,7 +20,7 @@ void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass read
             );
 }
 
-// external priority function P1.1 
+// external priority function
 void ExternalPriority(std::vector<PCB> &ready_queue){
     std::sort(
         ready_queue.begin(),
@@ -51,6 +51,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     idle_CPU(running);
 
     std::string execution_status;
+    std::string memory_status; // separate string for memory output
 
     //make the output table (the header row)
     execution_status = print_exec_header();
@@ -132,6 +133,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
             run_process(running, job_list, ready_queue, current_time); // call helper function to run process
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
+            memory_status += print_memory_status(job_list); // capture memory status whenever a process starts
         }
         /////////////////////////////////////////////////////////////////
         current_time++; // increment current_time within while loop
@@ -140,6 +142,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     
     //Close the output table
     execution_status += print_exec_footer();
+    
+    // Write memory status to separate file
+    write_output(memory_status, "memory.txt");
 
     return std::make_tuple(execution_status);
 }
@@ -181,6 +186,7 @@ int main(int argc, char** argv) {
     auto [exec] = run_simulation(list_process);
 
     write_output(exec, "execution.txt");
+    // memory.txt is written inside run_simulation
 
     return 0;
 }

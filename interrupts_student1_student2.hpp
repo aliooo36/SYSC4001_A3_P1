@@ -325,4 +325,50 @@ void idle_CPU(PCB &running) {
     running.PID = -1;
 }
 
+// memory analysis + output helper function
+std::string print_memory_status(std::vector<PCB> &job_list) { // we pass in the job list to keep track of the processes
+    const unsigned int TOTAL_MEMORY = 100; // Total memory available (40+25+15+10+8+2)
+    unsigned int total_used = 0;
+    unsigned int actual_process_memory = 0;
+    unsigned int usable_free = 0;
+    
+    std::stringstream buffer; // similar to the execution status output function
+    buffer << "\nMemory Status:\n";
+    buffer << "Used/Free Partitions:\n";
+    
+    for(int i = 0; i < 6; i++) { // loop through all of the processes
+        if(memory_paritions[i].occupied != -1) {
+            // Find the actual process size
+            unsigned int process_size = 0;
+            for(auto &proc : job_list) {
+                if(proc.PID == memory_paritions[i].occupied) {
+                    process_size = proc.size;
+                    actual_process_memory += process_size;
+                    break;
+                }
+            }
+            
+            buffer << "  Partition " << memory_paritions[i].partition_number 
+                   << " (Size: " << memory_paritions[i].size << "MB) - USED by PID " 
+                   << memory_paritions[i].occupied 
+                   << " (Process Size: " << process_size << "MB, Internal Frag: " 
+                   << (memory_paritions[i].size - process_size) << "MB)\n";
+            total_used += memory_paritions[i].size;
+        } else {
+            buffer << "  Partition " << memory_paritions[i].partition_number 
+                   << " (Size: " << memory_paritions[i].size << "MB) - FREE\n";
+            usable_free += memory_paritions[i].size;
+        }
+    }
+    
+    unsigned int total_free = TOTAL_MEMORY - actual_process_memory; // actual free including internal fragmentation
+    
+    buffer << "\nTotal Memory Used: " << total_used << " MB\n";
+    buffer << "Total Free Memory: " << total_free << " MB\n";
+    buffer << "Total Usable Memory Available: " << usable_free << " MB\n";
+    buffer << "Internal Fragmentation: " << (total_used - actual_process_memory) << " MB\n";
+    
+    return buffer.str();
+}
+
 #endif

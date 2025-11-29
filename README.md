@@ -4,8 +4,12 @@ run the following:
 
 for EB:
 ./build.sh
-./bin/interrupts_EP interrupts_EP.txt
+./bin/interrupts_EP interrupts.txt
 
 for RR:
 ./build.sh
-./bin/interrupts_RR interrupts_RR.txt
+./bin/interrupts_RR interrupts.txt
+
+for EP_RR:
+./build.sh
+./bin/interrupts_EP_RR interrupts.txt
