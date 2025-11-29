@@ -2,5 +2,5 @@
 
 run the following:
 
-build.sh
+./build.sh
 ./bin/interrupts_EP interrupts_EP.txt

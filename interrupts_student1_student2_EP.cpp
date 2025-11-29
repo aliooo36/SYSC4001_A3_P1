@@ -86,16 +86,41 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
 
-        for (auto p = wait_queue.begin(); p != wait_queue.end();) {
-            p -> io_duration--; // i/o duration decrement
-            if (p->io_duration == 0){ // if process completed i/o
-                p->state = READY; // change process state to READY
-                ready_queue.push_back(*p); // move to the back of the ready_queue
-                execution_status += print_exec_status(current_time, p->PID, WAITING, READY); // execution status output
-                sync_queue(job_list, *p); // job_list management
-                p = wait_queue.erase(p); // remove p from wait_queue
-            } else {
-                ++p; // if i/o not finished, we move to the next process
+        for (int i = 0; i < wait_queue.size(); i++) {
+            if (current_time - wait_queue[i].start_time >= wait_queue[i].io_duration) { // if process completed i/o
+                wait_queue[i].state = READY; // change process state to READY
+                ready_queue.push_back(wait_queue[i]); // move to the back of the ready_queue
+                execution_status += print_exec_status(current_time, wait_queue[i].PID, WAITING, READY); // execution status output
+                sync_queue(job_list, wait_queue[i]); // job_list management
+                wait_queue.erase(wait_queue.begin() + i); // remove process from wait_queue
+                i--; // if i/o not finished, we move to the next process
+            }
+        }
+        /////////////////////////////////////////////////////////////////
+
+        //////////////////////////EXECUTE RUNNING PROCESS//////////////////////////////
+        // execute running process
+        if (running.state == RUNNING) {
+            unsigned int current_burst_time = current_time - running.start_time;
+            
+            // checking if process is done
+            if (running.remaining_time <= current_burst_time) {
+                running.state = TERMINATED;
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED); // execution status output
+                terminate_process(running, job_list); // helper function to terminate process
+                idle_CPU(running); // clear cpu
+            }
+            
+            // if process needs I/O
+            // conditions: process has i/o operations and the i/o operation can be performed with the current burst time
+            else if (running.io_freq > 0 && current_burst_time >= running.io_freq) {
+                running.remaining_time -= running.io_freq;
+                running.state = WAITING; // process is now waiting
+                running.start_time = current_time; // reset start_time for I/O duration tracking
+                wait_queue.push_back(running); // add to the back of the wait queue
+                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING); // execution status output
+                sync_queue(job_list, running); // job_list management
+                idle_CPU(running); // clear cpu
             }
         }
         /////////////////////////////////////////////////////////////////
@@ -107,29 +132,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
             run_process(running, job_list, ready_queue, current_time); // call helper function to run process
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
-        }
-
-        // execute running process
-        if (running.state == RUNNING) {
-            running.remaining_time--; // decrement remaining time
-            
-            // if process needs I/O
-            // conditions: process still has remaining time, process has i/o operations and the i/o operation can be performed with the remaining time available 
-            if (running.remaining_time > 0 && running.io_freq > 0 && 
-                (running.processing_time - running.remaining_time) % running.io_freq == 0){
-                running.state = WAITING; // process is now waiting
-                wait_queue.push_back(running); // add to the back of the wait queue
-                execution_status += print_exec_status(current_time, running.PID, RUNNING, WAITING); // execution status output
-                sync_queue(job_list, running); // job_list management
-                idle_CPU(running); // clear cpu
-            }
-            
-            // checking if process is done
-            else if (running.remaining_time == 0){
-                execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED); // execution status output
-                terminate_process(running, job_list); // helper function to terminate process
-                idle_CPU(running); // clear cpu
-            }
         }
         /////////////////////////////////////////////////////////////////
         current_time++; // increment current_time within while loop
