@@ -12,3 +12,17 @@ Total Memory Used: 2 MB
 Total Free Memory: 99 MB
 Total Usable Memory Available: 98 MB
 Internal Fragmentation: 1 MB
+
+Memory Status:
+Used/Free Partitions:
+  Partition 1 (Size: 40MB) - FREE
+  Partition 2 (Size: 25MB) - FREE
+  Partition 3 (Size: 15MB) - FREE
+  Partition 4 (Size: 10MB) - FREE
+  Partition 5 (Size: 8MB) - USED by PID 1 (Process Size: 2MB, Internal Frag: 6MB)
+  Partition 6 (Size: 2MB) - FREE
+
+Total Memory Used: 8 MB
+Total Free Memory: 98 MB
+Total Usable Memory Available: 92 MB
+Internal Fragmentation: 6 MB
