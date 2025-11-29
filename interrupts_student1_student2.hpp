@@ -71,6 +71,11 @@ struct PCB{
     unsigned int    io_duration;
     unsigned int    priority; // priority addition
     unsigned int    total_cpu_time; // track total CPU time across bursts for RR
+    
+    // Performance metrics tracking
+    unsigned int    completion_time;      // When process terminates
+    int             first_run_time;       // When process first transitions READY→RUNNING
+    unsigned int    total_waiting_time;   // Accumulated time spent in READY state
 };
 
 //------------------------------------HELPER FUNCTIONS FOR THE SIMULATOR------------------------------
@@ -275,6 +280,9 @@ PCB add_process(std::vector<std::string> tokens) {
     
     process.priority = process.PID; // updated assignment requirement, as stated in testcase file on D2L, lower PID = higher priority
     process.total_cpu_time = 0; // initialize total CPU time counter
+    process.completion_time = 0; // metrics for performance tracking
+    process.first_run_time = -1;
+    process.total_waiting_time = 0;
 
     process.start_time = -1;
     process.partition_number = -1;

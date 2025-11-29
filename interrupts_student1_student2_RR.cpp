@@ -10,7 +10,7 @@
 
 #include<interrupts_student1_student2.hpp>
 
-void FCFS(std::vector<PCB> &ready_queue) {
+void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass ready_queue as parameter
     std::sort( 
                 ready_queue.begin(),
                 ready_queue.end(),
@@ -66,8 +66,6 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             }
         }
 
-        // edit area for us is between POINT A and POINT B
-        // POINT A
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
@@ -95,7 +93,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             
             // checking if process is done
             if (running.remaining_time <= current_burst_time) {
-                running.state = TERMINATED;
+                running.state = TERMINATED; // change process status to TERMINATED
+                running.completion_time = current_time; // Record completion time
+                sync_queue(job_list, running); // Update job_list with completion time
                 execution_status += print_exec_status(current_time, running.PID, RUNNING, TERMINATED); // execution status output
                 terminate_process(running, job_list); // helper function to terminate process
                 idle_CPU(running); // clear cpu
@@ -133,22 +133,63 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             // RR is FIFO
             running = ready_queue.front();
             ready_queue.erase(ready_queue.begin());
-            running.start_time = current_time;
-            running.state = RUNNING;
-            sync_queue(job_list, running);
+            running.start_time = current_time; // process start time
+            running.state = RUNNING; // change state to running
+            
+            // Track first run time for response time calculation
+            if (running.first_run_time == -1) { 
+                running.first_run_time = current_time;
+            }
+            
+            sync_queue(job_list, running); // ensure job_list is updated
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
             memory_status += print_memory_status(job_list); // capture memory status whenever a process starts
         }
         /////////////////////////////////////////////////////////////////
+        
+        for (auto &process : ready_queue) { // increment waiting time for processes in ready_queue
+            process.total_waiting_time++;
+            sync_queue(job_list, process); // ensure job_list is updated
+        }
 
         current_time++; // increment current_time within while loop
-        // POINT B
+
     }
     
     //Close the output table
     execution_status += print_exec_footer();
     
-    // Write memory status to separate file
+    // Calculate performance metrics
+    unsigned int total_turnaround = 0; // init new metric variables
+    unsigned int total_wait = 0;
+    unsigned int total_response = 0;
+    unsigned int completed_processes = 0;
+    
+    for(const auto &process : job_list) { // goes through all the processes within the job_list
+        if(process.state == TERMINATED) {
+            completed_processes++; // append +1 to completed_processes
+            total_turnaround += (process.completion_time - process.arrival_time); //turnaround time calculation
+            total_wait += process.total_waiting_time; // total process wait time
+            if(process.first_run_time != -1) { // if process ran
+                total_response += (process.first_run_time - process.arrival_time); //response time calculation
+            }
+        }
+    }
+    
+    // Calculate averages (if completed_process is above 0)
+    float avg_turnaround = (completed_processes > 0) ? (float)total_turnaround / completed_processes : 0;
+    float avg_wait = (completed_processes > 0) ? (float)total_wait / completed_processes : 0;
+    float avg_response = (completed_processes > 0) ? (float)total_response / completed_processes : 0;
+    float throughput = (current_time > 0) ? (float)completed_processes / current_time : 0;
+    
+    // add info to execution.txt output
+    execution_status += "\n\nPerformance Metrics\n";
+    execution_status += "Throughput: " + std::to_string(throughput) + " processes/ms\n";
+    execution_status += "Average Turnaround Time: " + std::to_string(avg_turnaround) + " ms\n";
+    execution_status += "Average Wait Time: " + std::to_string(avg_wait) + " ms\n";
+    execution_status += "Average Response Time: " + std::to_string(avg_response) + " ms\n";
+    
+    // write memory status to separate file
     write_output(memory_status, "memory.txt");
 
     return std::make_tuple(execution_status);
