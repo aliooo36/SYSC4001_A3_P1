@@ -8,7 +8,7 @@
  * 
  */
 
-#include<interrupts_student1_student2.hpp>
+#include<interrupts_101291890_101303925.hpp>
 
 void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass ready_queue as parameter
     std::sort( 
@@ -18,20 +18,6 @@ void FCFS(std::vector<PCB> &ready_queue) { // FCFS queue made by sasi, pass read
                     return (first.arrival_time > second.arrival_time); 
                 } 
             );
-}
-
-// ep with rr for same priority level
-void ExternalPriorityRR(std::vector<PCB> &ready_queue) {
-    std::sort(
-        ready_queue.begin(),
-        ready_queue.end(),
-        [](const PCB &first, const PCB &second){
-            if (first.priority == second.priority){
-                return false; // maintain insertion order for same priority
-            }
-            return (first.priority < second.priority);
-        }
-    );
 }
 
 std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std::vector<PCB> list_processes) {
@@ -46,7 +32,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
     unsigned int current_time = 0;
     const unsigned int TOTAL_MEMORY = 100;
     const unsigned int LARGEST_PARTITION = 40;
-
+    
     PCB running;
     const unsigned int TIME_QUANTUM = 100; // RR time quantum
 
@@ -90,19 +76,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 job_list.push_back(process); //Add it to the list of processes
 
                 execution_status += print_exec_status(current_time, process.PID, NEW, READY);
-                
-                // check if new arrival has higher priority than running process
-                if (running.state == RUNNING && process.priority < running.priority) {
-                    unsigned int current_burst_time = current_time - running.start_time;
-                    running.remaining_time -= current_burst_time; // subtract time already used
-                    running.state = READY; // preempt by higher priority
-                    ready_queue.push_back(running); // add to ready queue
-                    execution_status += print_exec_status(current_time, running.PID, RUNNING, READY); // execution status output
-                    sync_queue(job_list, running); // job_list management
-                    idle_CPU(running); // clear cpu
-                }
             }
         }
+
 
         ///////////////////////MANAGE WAIT QUEUE/////////////////////////
         //This mainly involves keeping track of how long a process must remain in the ready queue
@@ -117,6 +93,9 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
                 i--; // if i/o not finished, we move to the next proces
             }
         }
+
+        // same wait queue management function as shown in the EP .cpp file
+
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////EXECUTE RUNNING PROCESS//////////////////////////////
@@ -161,11 +140,11 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
         /////////////////////////////////////////////////////////////////
 
         //////////////////////////SCHEDULER//////////////////////////////
-        ExternalPriorityRR(ready_queue); // sory by prioirty, use FIFO for same priority
 
         // if CPU idle and ready queue has processes
         if (running.state == NOT_ASSIGNED && !ready_queue.empty()){
-            running = ready_queue.front(); // Take from front (highest priority after sort)
+            // RR is FIFO
+            running = ready_queue.front();
             ready_queue.erase(ready_queue.begin());
             running.start_time = current_time; // process start time
             running.state = RUNNING; // change state to running
@@ -179,6 +158,7 @@ std::tuple<std::string /* add std::string for bonus mark */ > run_simulation(std
             execution_status += print_exec_status(current_time, running.PID, READY, RUNNING); // execution status output
             memory_status += print_memory_status(job_list); // capture memory status whenever a process starts
         }
+        /////////////////////////////////////////////////////////////////
         
         for (auto &process : ready_queue) { // increment waiting time for processes in ready_queue
             process.total_waiting_time++;

@@ -3,8 +3,8 @@
  * @author Sasisekhar Govind
  * @brief template main.cpp file for Assignment 3 Part 1 of SYSC4001
  * 
- * @author Muhammad Ali
- * @brief just added some comments
+ * @author Muhammad Ali 101291890
+ * @author Gregory Horvat 101303925
  * 
  */
 
